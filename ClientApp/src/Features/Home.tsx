@@ -4,5 +4,5 @@ import React from "react";
 type HomeProps = RouteComponentProps;
 
 export const Home = (props: HomeProps) => <div>
-  Home Page
-</div>
+  <h1>Home Page</h1>
+</div>;
