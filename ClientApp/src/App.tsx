@@ -1,26 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Router } from '@reach/router';
+import { Layout } from './Features/Layout';
+import { Home } from './Features/Home';
+import { Goals } from './Features/Goals';
+import { NotFound } from './Features/NotFound';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+export const App = () => (<div>
+  <Router>
+    <Layout path="/">
+      <Home path="/" />
+      <Goals path="goals" />
+    </Layout>
+    <NotFound default />
+  </Router>
+</div>)
