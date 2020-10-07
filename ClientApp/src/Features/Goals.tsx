@@ -1,5 +1,5 @@
-import { RouteComponentProps } from "@reach/router";
-import React, { useEffect, useState } from "react";
+import { RouteComponentProps } from '@reach/router';
+import React, { useEffect, useState } from 'react';
 
 type Goal = {
   name: string;
@@ -12,7 +12,7 @@ type Goals = {
 
 type GoalsProps = RouteComponentProps;
 
-export const Goals = (props: GoalsProps) => {
+export const Goals: React.FC<GoalsProps> = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [data, setData] = useState<Goals | null>(null);
@@ -39,14 +39,16 @@ export const Goals = (props: GoalsProps) => {
   return (
     <div>
       <h1>Goals Page</h1>
-      {data && <>
-        Found {data.goals.length} goals:
-        <ul>
-          {data.goals.map((goal: Goal) =>
-            <li key={goal.name}>{goal.name}</li>
-          )}
-        </ul>
-      </>}
+      {data && (
+        <>
+          Found {data.goals.length} goals:
+          <ul>
+            {data.goals.map((goal: Goal) => (
+              <li key={goal.name}>{goal.name}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };
