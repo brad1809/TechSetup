@@ -2,12 +2,12 @@ import { RouteComponentProps } from '@reach/router';
 import React from 'react';
 import { useFetch } from '../Hooks/useFetch';
 
-type Goal = {
+export type Goal = {
   name: string;
   completed: boolean;
 };
 
-type Goals = {
+export type Goals = {
   goals: Array<Goal>;
 };
 
