@@ -1,5 +1,6 @@
 import { RouteComponentProps } from '@reach/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useFetch } from '../Hooks/useFetch';
 
 type Goal = {
   name: string;
@@ -13,20 +14,7 @@ type Goals = {
 type GoalsProps = RouteComponentProps;
 
 export const Goals: React.FC<GoalsProps> = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-  const [data, setData] = useState<Goals | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-
-    fetch('https://localhost:5001/api/goals')
-      .then((response: Response) => response.json())
-      .then((result: Goals) => setData(result))
-      .catch((error: Error) => setError(error))
-      .finally(() => setLoading(false));
-  }, []);
+  const { data, loading, error } = useFetch<Goals>('api/goals');
 
   if (loading) {
     return <>Loading!</>;
