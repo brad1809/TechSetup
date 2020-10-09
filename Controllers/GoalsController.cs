@@ -30,5 +30,25 @@ namespace GoalsApp.Controllers
                 Goals = goals
             };
         }
+
+        [HttpPost]
+        public async Task<Goal> CreateGoal(CreateGoalDto dto)
+        {
+            var newGoal = new Goal()
+            {
+                Name = dto.Name
+            };
+
+            dataContext.Goals.Add(newGoal);
+
+            await dataContext.SaveChangesAsync();
+
+            return newGoal;
+        }
+
+        public class CreateGoalDto
+        {
+            public string Name { get; set; }
+        }
     }
 }
