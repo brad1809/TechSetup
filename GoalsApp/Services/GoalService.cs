@@ -1,26 +1,25 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using GoalsApp.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using static GoalsApp.Controllers.GoalsController;
 
-namespace GoalsApp.Controllers
+namespace GoalsApp.Services
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class GoalsController : ControllerBase
+    public interface IGoalService
     {
-        private readonly ILogger<GoalsController> _logger;
+        Task<Goal> CreateGoal(CreateGoalDto dto);
+        Task<GoalList> GetGoals();
+    }
+
+    public class GoalService : IGoalService
+    {
         private readonly DataContext dataContext;
 
-        public GoalsController(ILogger<GoalsController> logger, DataContext context)
+        public GoalService(DataContext _dataContext)
         {
-            _logger = logger;
-            dataContext = context;
+            dataContext = _dataContext;
         }
 
-        [HttpGet]
         public async Task<GoalList> GetGoals()
         {
             var goals = await dataContext.Goals.ToListAsync();
@@ -31,7 +30,6 @@ namespace GoalsApp.Controllers
             };
         }
 
-        [HttpPost]
         public async Task<Goal> CreateGoal(CreateGoalDto dto)
         {
             var newGoal = new Goal()
@@ -44,11 +42,6 @@ namespace GoalsApp.Controllers
             await dataContext.SaveChangesAsync();
 
             return newGoal;
-        }
-
-        public class CreateGoalDto
-        {
-            public string Name { get; set; }
         }
     }
 }
