@@ -1,6 +1,7 @@
 import { RouteComponentProps } from '@reach/router';
 import { Field, Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
+import { usePost } from '../Hooks/usePost';
 
 type AddGoalProps = RouteComponentProps;
 
@@ -13,25 +14,7 @@ const initialValues: FormModel = {
 };
 
 export const AddGoal = (props: AddGoalProps) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
-  const onSubmit = (values: FormModel) => {
-    setError(null);
-    setLoading(true);
-
-    fetch('/api/goals', {
-      method: 'POST',
-      body: JSON.stringify(values),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json))
-      .catch((error) => setError(error))
-      .finally(() => setLoading(false));
-  };
+  const { error, loading, onSubmit } = usePost('/api/goals', console.log);
 
   if (loading) {
     return <p>Saving</p>;
