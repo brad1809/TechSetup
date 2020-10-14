@@ -3,7 +3,7 @@ import { useState } from 'react';
 type UsePostResult<TPost, TResponse> = {
   loading: boolean;
   error: Error | null;
-  onSubmit: (values: TPost) => unknown;
+  onSubmit: (values: TPost) => void | Promise<unknown>;
 };
 
 export const usePost = <TPost, TResponse>(

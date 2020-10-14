@@ -2,6 +2,7 @@ import { RouteComponentProps } from '@reach/router';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { usePost } from '../Hooks/usePost';
+import { Goal } from './Goals';
 
 type AddGoalProps = RouteComponentProps;
 
@@ -14,7 +15,7 @@ const initialValues: FormModel = {
 };
 
 export const AddGoal = (props: AddGoalProps) => {
-  const { error, loading, onSubmit } = usePost('/api/goals', console.log);
+  const { error, loading, onSubmit } = usePost<FormModel, Goal>('/api/goals', console.log);
 
   if (loading) {
     return <p>Saving</p>;
