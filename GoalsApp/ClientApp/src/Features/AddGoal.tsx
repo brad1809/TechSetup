@@ -4,6 +4,13 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React from 'react';
 import { usePost } from '../Hooks/usePost';
 import { Goal } from './Goals';
+import styled from 'styled-components';
+
+const StyledForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+`;
 
 type AddGoalProps = RouteComponentProps;
 
@@ -43,12 +50,12 @@ export const AddGoal = (props: AddGoalProps) => {
     <div>
       <h1>Add Goal</h1>
       <Formik initialValues={initialValues} onSubmit={onSubmit} validate={validate}>
-        <Form>
+        <StyledForm>
           <label htmlFor='name'>Name</label>
           <Field name='name' type='text' />
           <ErrorMessage name='name' />
           <button type='submit'>Submit</button>
-        </Form>
+        </StyledForm>
       </Formik>
     </div>
   );
