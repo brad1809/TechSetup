@@ -1,6 +1,8 @@
-import { assert } from 'console';
 import playwright, { Browser, Page } from 'playwright';
 import { Context } from 'vm';
+import { AddGoalPage } from '../Features/AddGoal.page';
+import { GoalsPage } from '../Features/Goals.page';
+import { HomePage } from '../Features/Home.page';
 
 describe('Adding a goal', () => {
   let browser: Browser;
@@ -19,26 +21,28 @@ describe('Adding a goal', () => {
   });
 
   it('Loads the add goal page', async () => {
-    await page.goto('https://localhost:5001/addgoal');
+    const addGoalPage = new AddGoalPage(page);
+    await addGoalPage.navigateHere();
     await page.screenshot({ path: `./src/E2E/addGoal.jpg` });
-    await page.$('"Add Goals"');
+    await addGoalPage.verifyPage();
   });
 
   it('Adds the goal', async () => {
     const newGoalName = new Date().toISOString().substring(0, 20);
 
-    await page.goto('https://localhost:5001');
+    const homePage = new HomePage(page);
+    await homePage.navigateHere();
     await page.screenshot({ path: `./src/E2E/homepage.jpg` });
-    await page.click('"Add Goal!"');
+    await homePage.clickAddGoalTab();
 
-    await page.fill('[name=name]', newGoalName);
+    const addGoalPage = new AddGoalPage(page);
+    await addGoalPage.fillNameField(newGoalName);
     await page.screenshot({ path: `./src/E2E/filledAddGoal.jpg` });
+    await addGoalPage.submitForm();
+    await addGoalPage.clickGoalsTab();
 
-    await Promise.all([page.waitForResponse('**/api/goals'), page.click('button[type=submit]')]);
-
-    await Promise.all([page.waitForResponse('**/api/goals'), page.click('"Goals"')]);
-
-    const createdGoal = await page.$(`"${newGoalName}"`);
-    expect(createdGoal).not.toBeNull();
+    const goalsPage = new GoalsPage(page);
+    await goalsPage.waitForLoad();
+    await goalsPage.assertGoalExists(newGoalName);
   });
 });
